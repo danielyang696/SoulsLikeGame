@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class WorldSaveGameManager : MonoBehaviour
 {
     public static WorldSaveGameManager instance {get; private set;}
-    [SerializeField] int WorldSenceIndex = 1;
+    [SerializeField] int WorldScenesIndex = 1;
 
     void Awake()
     {
@@ -23,7 +23,7 @@ public class WorldSaveGameManager : MonoBehaviour
     }
 
     public IEnumerator LoadNewGame(){
-        AsyncOperation loadOperation = SceneManager.LoadSceneAsync(WorldSenceIndex);
+        AsyncOperation loadOperation = SceneManager.LoadSceneAsync(WorldScenesIndex);
         yield return null;
     }
 }
