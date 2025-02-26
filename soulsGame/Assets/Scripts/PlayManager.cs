@@ -6,11 +6,13 @@ using UnityEngine.Scripting.APIUpdating;
 
 public class PlayManager : MonoBehaviour
 {
-    PlayerContrl playerContrl;
+    //PlayerContrl是player的移動腳本
+    public PlayerContrl playerContrl;
     Animator animator;
-    InputManeger inputManeger;
-    CameraManager cameraManager;
-    PlayerStaminaManager playerStaminaManager;
+    public PlayerStaminaManager playerStaminaManager;
+    public AnimatorManager animatorManager;
+
+
 
     public bool applyRootMotion;
     public bool isPerformingAction = false;
@@ -18,16 +20,17 @@ public class PlayManager : MonoBehaviour
     public bool isGrounded;
 
     private void Awake() {
+        DontDestroyOnLoad(this);
+
         playerContrl = GetComponent<PlayerContrl>();
-        inputManeger = GetComponent<InputManeger>();
-        cameraManager = FindAnyObjectByType<CameraManager>();
         playerStaminaManager = FindAnyObjectByType<PlayerStaminaManager>();
         animator = GetComponent<Animator>();
+        animatorManager = GetComponent<AnimatorManager>();
     }
 
     private void Update() {
         animator.SetBool("isGround", isGrounded);
-        inputManeger.HandleAllInput();
+        InputManeger.istance.HandleAllInput();
         playerStaminaManager.HandleAllStaminaChange();
     }
 
@@ -37,6 +40,6 @@ public class PlayManager : MonoBehaviour
 
     //handle camera follow  
     private void LateUpdate() {
-        cameraManager.HandleAllCameraMovement();
+        CameraManager.istance.HandleAllCameraMovement();
     }
 }

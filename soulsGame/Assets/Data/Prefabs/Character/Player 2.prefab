@@ -160,10 +160,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 23d013111f171494a958d2b7669e64ad,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1210041507249290638}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 23d013111f171494a958d2b7669e64ad,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 64638568788228550}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 23d013111f171494a958d2b7669e64ad,
         type: 3}
@@ -311,21 +307,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
---- !u!114 &1210041507249290638
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2674045894420264376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c73b271834d12c49a4b3a2994e4e8e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mouseX: 0
-  mouseY: 0
-  moveAmount: 0
 --- !u!114 &64638568788228550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,6 +351,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce72bfb39481ff48a02ea124a9437de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerContrl: {fileID: 0}
+  animator: {fileID: 0}
+  playerStaminaManager: {fileID: 0}
+  animatorManager: {fileID: 0}
   applyRootMotion: 0
   isPerformingAction: 0
   isJumping: 0

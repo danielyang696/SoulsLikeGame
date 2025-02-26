@@ -13,8 +13,6 @@ public class PlayerContrl : MonoBehaviour
     [Header("references")]
     Rigidbody rb;
     PlayManager playManager;
-    InputManeger inputManeger;
-    AnimatorManager animatorManager;
     PlayerStaminaManager playerStaminaManager;
     Transform cameraObject;
 
@@ -50,8 +48,6 @@ public class PlayerContrl : MonoBehaviour
 
     private void Awake() {
         rb = GetComponent<Rigidbody>();
-        animatorManager = GetComponent<AnimatorManager>();
-        inputManeger = GetComponent<InputManeger>();
         cameraObject = Camera.main.transform;
         playManager = GetComponent<PlayManager>();
         playerStaminaManager = FindAnyObjectByType<PlayerStaminaManager>();
@@ -74,17 +70,17 @@ public class PlayerContrl : MonoBehaviour
         if (playManager.isPerformingAction) return;
         if (!playManager.isGrounded) return;
 
-        moveDirection = cameraObject.forward * inputManeger.verticalInput;
-        moveDirection = moveDirection + cameraObject.right * inputManeger.horizontalInput;
+        moveDirection = cameraObject.forward * InputManeger.istance.verticalInput;
+        moveDirection = moveDirection + cameraObject.right * InputManeger.istance.horizontalInput;
         moveDirection.Normalize();
         moveDirection.y = 0f;
         
-        if (isSprinting && inputManeger.moveAmount >= 0.5f){
+        if (isSprinting && InputManeger.istance.moveAmount >= 0.5f){
             moveVelocity = moveDirection * sprintingSpeed;
 
             playerStaminaManager.currentStamina -= sprintingStaminaCost * Time.deltaTime;
         }else{
-            if (inputManeger.moveAmount > 0.5f){
+            if (InputManeger.istance.moveAmount > 0.5f){
             moveVelocity = moveDirection * runningSpeed;
             }else{
                 moveVelocity = moveDirection * walkSpeed;
@@ -101,8 +97,8 @@ public class PlayerContrl : MonoBehaviour
 
         Vector3 targetDirection = Vector3.zero;
 
-        targetDirection = cameraObject.forward * inputManeger.verticalInput;
-        targetDirection = targetDirection + cameraObject.right * inputManeger.horizontalInput;
+        targetDirection = cameraObject.forward * InputManeger.istance.verticalInput;
+        targetDirection = targetDirection + cameraObject.right * InputManeger.istance.horizontalInput;
         targetDirection.Normalize();
         targetDirection.y = 0f;
 
@@ -125,20 +121,20 @@ public class PlayerContrl : MonoBehaviour
         if (playerStaminaManager.currentStamina <= 0) return;
 
 
-        if (inputManeger.moveAmount > 0){
+        if (InputManeger.istance.moveAmount > 0){
             Vector3 rollDirection = Vector3.zero;
 
-            rollDirection = cameraObject.forward * inputManeger.verticalInput;
-            rollDirection = rollDirection + cameraObject.right * inputManeger.horizontalInput;
+            rollDirection = cameraObject.forward * InputManeger.istance.verticalInput;
+            rollDirection = rollDirection + cameraObject.right * InputManeger.istance.horizontalInput;
             rollDirection.Normalize();
             rollDirection.y = 0f;
 
             Quaternion rollRotation = Quaternion.LookRotation(rollDirection);
             transform.rotation = rollRotation;
 
-            animatorManager.PlayTargetAction("RollAnimation", true);
+            playManager.animatorManager.PlayTargetAction("RollAnimation", true);
         }else{
-            animatorManager.PlayTargetAction("Back step", true);
+            playManager.animatorManager.PlayTargetAction("Back step", true);
         }
 
         playerStaminaManager.currentStamina -= dodgeStaminaCost;
@@ -158,7 +154,7 @@ public class PlayerContrl : MonoBehaviour
         float characterHeight = transform.position.y;
         //使腳色不陷入地板
         if (playManager.isGrounded && !playManager.isJumping){
-            if ((playManager.isPerformingAction || inputManeger.moveAmount > 0f) && !playManager.isJumping){
+            if ((playManager.isPerformingAction || InputManeger.istance.moveAmount > 0f) && !playManager.isJumping){
                 // 若角色低於地面，則稍微推動角色向上，避免誤差
                 if (characterHeight != groundHeight)
                 {   
@@ -187,7 +183,7 @@ public class PlayerContrl : MonoBehaviour
             }
 
             inAirTimer += Time.deltaTime;
-            animatorManager.animator.SetFloat("airTimer", inAirTimer);
+            playManager.animatorManager.animator.SetFloat("airTimer", inAirTimer);
 
             rb.AddForce(-Vector3.up * fallingGravityForce * inAirTimer);
         }
@@ -211,7 +207,7 @@ public class PlayerContrl : MonoBehaviour
 
         playManager.isJumping = true;
        
-        animatorManager.PlayTargetAction("Jump start", false, false);
+        playManager.animatorManager.PlayTargetAction("Jump start", false, false);
         
         playerStaminaManager.currentStamina -= jumpStaminaCost;
     }
@@ -236,7 +232,7 @@ public class PlayerContrl : MonoBehaviour
         if (playManager.applyRootMotion)
         {
             // 获取动画中的位移和旋转数据
-            Vector3 deltaPosition = animatorManager.animator.deltaPosition;
+            Vector3 deltaPosition = playManager.animatorManager.animator.deltaPosition;
             deltaPosition.y = 0;
 
             //使動畫的位移沿著斜坡角度移動

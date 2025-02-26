@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    InputManeger inputManeger;
+    public static CameraManager istance;
     private Transform targetTransform;
     public Transform cameraPivot;
     private Transform cameraTransform;
@@ -27,10 +27,20 @@ public class CameraManager : MonoBehaviour
     private float pivotAngle;//cameraPivot要轉動的xRotation(上下看的角度
 
     private void Awake() {
+        if (istance == null){
+            istance = this;
+        }else{
+            Destroy(gameObject);
+        }
+
         targetTransform = FindAnyObjectByType<PlayManager>().transform; //camera要跟隨的目標的transform
-        inputManeger = FindAnyObjectByType<InputManeger>();
         cameraTransform = Camera.main.transform;
         defaultPosition = cameraTransform.localPosition.z;  //預設main camera和cameraPivot的距離(預設為-3)
+    }
+
+    void Start()
+    {
+        DontDestroyOnLoad(this);
     }
 
     public void HandleAllCameraMovement(){
@@ -48,8 +58,8 @@ public class CameraManager : MonoBehaviour
         Vector3 rotation;
         Quaternion targetRotation;
 
-        lookAngle = lookAngle + (inputManeger.mouseX * cameraLookSpeed);
-        pivotAngle = pivotAngle - (inputManeger.mouseY * cameraPivotSpeed);
+        lookAngle = lookAngle + (InputManeger.istance.mouseX * cameraLookSpeed);
+        pivotAngle = pivotAngle - (InputManeger.istance.mouseY * cameraPivotSpeed);
         pivotAngle = Mathf.Clamp(pivotAngle, minPivotAngle, maxPivotAngle); //限制視角上下看的角度
 
         rotation = Vector3.zero;

@@ -6,16 +6,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 using UnityEngine.Windows;
-
+using UnityEngine.SceneManagement;
 public class InputManeger : MonoBehaviour
 {
+    public static InputManeger istance;
     //這個是input system
     PlayerControls playerContrl;
 
-    //這個是scripts
-    PlayerContrl playerContrlScripts;
     PlayManager playManager;
-    AnimatorManager animatorManager;
     PlayerStaminaManager playerStaminaManager;
     
     public Vector2 moveInput{get; private set;}
@@ -33,10 +31,29 @@ public class InputManeger : MonoBehaviour
     public float verticalInput{get; private set;}
 
     private void Awake() {
-        animatorManager = GetComponent<AnimatorManager>();
-        playerContrlScripts = GetComponent<PlayerContrl>();
+        if (istance == null){
+            istance = this;
+        }else{
+            Destroy(gameObject);
+        }
+
         playerStaminaManager = FindAnyObjectByType<PlayerStaminaManager>();
-        playManager = GetComponent<PlayManager>();
+        playManager = FindAnyObjectByType<PlayManager>();
+    }
+
+    void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+        SceneManager.activeSceneChanged += OnSceneChanged;    
+        istance.enabled = false;
+    }
+
+    private void  OnSceneChanged(Scene oldScene, Scene newScene){
+        if (newScene.buildIndex == WorldSaveGameManager.instance.GetWorldScenesIndex()){
+            istance.enabled = true;
+        }else{
+            istance.enabled = false;
+        }
     }
 
     private void OnEnable()
@@ -61,7 +78,16 @@ public class InputManeger : MonoBehaviour
 
     private void OnDisable()
     {
-        playerContrl.Disable();
+        //playerContrl.Disable();
+    }
+
+    void OnDestroy()
+    {
+        SceneManager.activeSceneChanged -= OnSceneChanged;  
+    }
+
+    private void Update() {
+        HandleAllInput();
     }
 
     public void HandleAllInput(){
@@ -84,9 +110,9 @@ public class InputManeger : MonoBehaviour
 
         if (walkInput && moveAmount >= 0.5f){
             moveAmount = 0.5f;
-            animatorManager.UpdateAnimation(0, moveAmount, playerContrlScripts.isSprinting);
+            playManager.animatorManager.UpdateAnimation(0, moveAmount, playManager.playerContrl.isSprinting);
         }else{
-            animatorManager.UpdateAnimation(0, moveAmount, playerContrlScripts.isSprinting);
+            playManager.animatorManager.UpdateAnimation(0, moveAmount, playManager.playerContrl.isSprinting);
         }
     }
 
@@ -94,7 +120,7 @@ public class InputManeger : MonoBehaviour
         if (dodgeInput){
             dodgeInput = false;
 
-            playerContrlScripts.TryDodge();
+            playManager.playerContrl.TryDodge();
         }
     }
 
@@ -102,15 +128,15 @@ public class InputManeger : MonoBehaviour
         if (jumpInput){
             jumpInput = false;
 
-            playerContrlScripts.TryJump();
+            playManager.playerContrl.TryJump();
         }
     }
 
     private void HandleSprintInput(){
         if (sprintingInput && moveAmount > 0.55f && playerStaminaManager.currentStamina > 0){
-            playerContrlScripts.isSprinting = true;
+            playManager.playerContrl.isSprinting = true;
         }else{
-            playerContrlScripts.isSprinting = false;
+            playManager.playerContrl.isSprinting = false;
         }
     }
 }
