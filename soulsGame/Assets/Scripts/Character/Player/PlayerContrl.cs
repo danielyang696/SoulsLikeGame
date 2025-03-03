@@ -8,12 +8,11 @@ using UnityEngine.AI;
 using UnityEditor.Animations;
 using UnityEditor.MPE;
 
-public class PlayerContrl : MonoBehaviour
+public class PlayerContrl : CharacterContrl
 {
     [Header("references")]
     Rigidbody rb;
     PlayManager playManager;
-    PlayerStaminaManager playerStaminaManager;
     Transform cameraObject;
 
     [Header("movement")]
@@ -46,11 +45,13 @@ public class PlayerContrl : MonoBehaviour
 
     private Vector3 targetPosition;
 
-    private void Awake() {
+    protected override void Awake() {
+        base.Awake();
+        
         rb = GetComponent<Rigidbody>();
         cameraObject = Camera.main.transform;
         playManager = GetComponent<PlayManager>();
-        playerStaminaManager = FindAnyObjectByType<PlayerStaminaManager>();
+        playManager.playerStaminaManager = FindAnyObjectByType<PlayerStaminaManager>();
     }
 
     private void Update()
@@ -78,7 +79,7 @@ public class PlayerContrl : MonoBehaviour
         if (isSprinting && InputManeger.istance.moveAmount >= 0.5f){
             moveVelocity = moveDirection * sprintingSpeed;
 
-            playerStaminaManager.currentStamina -= sprintingStaminaCost * Time.deltaTime;
+            playManager.playerStaminaManager.currentStamina -= sprintingStaminaCost * Time.deltaTime;
         }else{
             if (InputManeger.istance.moveAmount > 0.5f){
             moveVelocity = moveDirection * runningSpeed;
@@ -118,7 +119,7 @@ public class PlayerContrl : MonoBehaviour
 
         if (!playManager.isGrounded) return;
 
-        if (playerStaminaManager.currentStamina <= 0) return;
+        if (playManager.playerStaminaManager.currentStamina <= 0) return;
 
 
         if (InputManeger.istance.moveAmount > 0){
@@ -137,7 +138,7 @@ public class PlayerContrl : MonoBehaviour
             playManager.animatorManager.PlayTargetAction("Back step", true);
         }
 
-        playerStaminaManager.currentStamina -= dodgeStaminaCost;
+        playManager.playerStaminaManager.currentStamina -= dodgeStaminaCost;
     }
     
 
@@ -199,7 +200,7 @@ public class PlayerContrl : MonoBehaviour
     public void TryJump(){
         if (playManager.isPerformingAction) return;
         
-        if (playerStaminaManager.currentStamina <= 0) return;
+        if (playManager.playerStaminaManager.currentStamina <= 0) return;
 
         if (!playManager.isGrounded) return;
 
@@ -209,7 +210,7 @@ public class PlayerContrl : MonoBehaviour
        
         playManager.animatorManager.PlayTargetAction("Jump start", false, false);
         
-        playerStaminaManager.currentStamina -= jumpStaminaCost;
+        playManager.playerStaminaManager.currentStamina -= jumpStaminaCost;
     }
 
     public void ApplyJumpVelocity(){

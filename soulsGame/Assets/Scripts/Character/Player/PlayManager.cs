@@ -4,12 +4,11 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 
-public class PlayManager : MonoBehaviour
+public class PlayManager : CharacterManager
 {
     //PlayerContrl是player的移動腳本
     public PlayerContrl playerContrl;
     Animator animator;
-    public PlayerStaminaManager playerStaminaManager;
     public AnimatorManager animatorManager;
 
 
@@ -19,11 +18,10 @@ public class PlayManager : MonoBehaviour
     public bool isJumping;
     public bool isGrounded;
 
-    private void Awake() {
-        DontDestroyOnLoad(this);
+    protected override void Awake() {
+        base.Awake();
 
         playerContrl = GetComponent<PlayerContrl>();
-        playerStaminaManager = FindAnyObjectByType<PlayerStaminaManager>();
         animator = GetComponent<Animator>();
         animatorManager = GetComponent<AnimatorManager>();
     }

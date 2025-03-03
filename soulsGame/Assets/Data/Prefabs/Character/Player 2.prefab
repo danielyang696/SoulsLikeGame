@@ -165,6 +165,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6095214880065873074}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 23d013111f171494a958d2b7669e64ad,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2458335936733893575}
   m_SourcePrefab: {fileID: 100100000, guid: 23d013111f171494a958d2b7669e64ad, type: 3}
 --- !u!1 &2674045894420264376 stripped
 GameObject:
@@ -351,14 +355,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce72bfb39481ff48a02ea124a9437de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerContrl: {fileID: 0}
-  animator: {fileID: 0}
   playerStaminaManager: {fileID: 0}
+  playerContrl: {fileID: 0}
   animatorManager: {fileID: 0}
   applyRootMotion: 0
   isPerformingAction: 0
   isJumping: 0
   isGrounded: 0
+--- !u!114 &2458335936733893575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2674045894420264376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df7c6d660dd0ab84ca8a8979b5389f8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectToTest: {fileID: 11400000, guid: ea7e0c95087b3b44c92271d3ecdf3902, type: 2}
+  isProcessingEffect: 0
 --- !u!4 &3339364415889911554 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 23d013111f171494a958d2b7669e64ad,

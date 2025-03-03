@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 public class InputManeger : MonoBehaviour
 {
     public static InputManeger istance;
+    
     //這個是input system
     PlayerControls playerContrl;
 
