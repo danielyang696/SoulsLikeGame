@@ -13,6 +13,6 @@ public class TakeStaminaEffect : InstantCharacterEffect
 
     //在此先計算要扣除多少體力
     private void CalulateStaminaDamage(CharacterManager character){
-        character.playerStaminaManager.currentStamina -= staminaDamage;
+        character.currentStamina -= staminaDamage;
     }
 }

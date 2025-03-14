@@ -11,8 +11,7 @@ public class PlayManager : CharacterManager
     Animator animator;
     public AnimatorManager animatorManager;
 
-
-
+    protected override CharacterHealthManager characterHealthManager { get ; set ;}  //繼承自CharacterManager
     public bool applyRootMotion;
     public bool isPerformingAction = false;
     public bool isJumping;
@@ -21,15 +20,25 @@ public class PlayManager : CharacterManager
     protected override void Awake() {
         base.Awake();
 
+        characterHealthManager = FindAnyObjectByType<PlayerHealthManager>();//將CharacterHealthManager覆蓋為PlayerHealthManager
         playerContrl = GetComponent<PlayerContrl>();
         animator = GetComponent<Animator>();
         animatorManager = GetComponent<AnimatorManager>();
     }
 
-    private void Update() {
+    void Start()
+    {
+        maxHealth = 100f;
+        maxStamina = 100f;
+        currentStamina = maxStamina;
+        currentHealth = maxHealth;
+    }
+
+    protected override void Update() {
+        base.Update();
+        
         animator.SetBool("isGround", isGrounded);
         InputManeger.istance.HandleAllInput();
-        playerStaminaManager.HandleAllStaminaChange();
     }
 
     private void FixedUpdate() {

@@ -10,35 +10,31 @@ public class PlayerStaminaManager : MonoBehaviour
 {
     PlayerContrl playerContrlScripts;
     PlayManager playManager;
-    private Slider slider;
+    private Slider staminaBarslider;
 
 
-    private float maxStamina = 100f;
-    public float currentStamina = 100f;
+    //private float maxStamina = 100f;
+    //public float currentStamina = 100f;
     public float rechargeRate = 10f;
     private Coroutine rechargeStamina;
 
     private void Awake()
     {
-        slider = GetComponent<Slider>();
+        staminaBarslider = GetComponent<Slider>();
         playerContrlScripts = FindAnyObjectByType<PlayerContrl>();
         playManager = FindAnyObjectByType<PlayManager>();
+        playManager.OnStaminaChanged += HandleStaminaBarValue; //訂閱事件，事件觸發時會呼叫HandleStaminaBarValue
     }
 
-    public void HandleAllStaminaChange(){
-        HandleStaminaValue();
-        HandleStaminaRecharge();
-    }
-    private void HandleStaminaValue(){
-        currentStamina = Mathf.Clamp(currentStamina, 0f, 100f);
+    private void HandleStaminaBarValue(float value){
 
-        slider.value = currentStamina/maxStamina;
+        staminaBarslider.value = value/playManager.maxStamina;
     }
 
-    private void HandleStaminaRecharge(){
+    public void HandleStaminaRecharge(){
         if (playerContrlScripts.isSprinting || playManager.isPerformingAction || playManager.isJumping){
             StopAllCoroutines();
-        } else if (!playerContrlScripts.isSprinting && !playManager.isPerformingAction && currentStamina < maxStamina){
+        } else if (!playerContrlScripts.isSprinting && !playManager.isPerformingAction && playManager.currentStamina < playManager.maxStamina){
             rechargeStamina = StartCoroutine(RechargeStamina());
         }
     }
@@ -46,9 +42,9 @@ public class PlayerStaminaManager : MonoBehaviour
     private IEnumerator RechargeStamina(){
         yield return new WaitForSeconds(0.5f);
 
-        while (currentStamina < maxStamina){
-            currentStamina += rechargeRate/100;
-            if (currentStamina > maxStamina) currentStamina = maxStamina;
+        while (playManager.currentStamina < playManager.maxStamina){
+            playManager.currentStamina += rechargeRate/100;
+            if (playManager.currentStamina > playManager.maxStamina) playManager.currentStamina = playManager.maxStamina;
             yield return new WaitForSeconds(0.1f);
         }
     }

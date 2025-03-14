@@ -9,7 +9,7 @@ public class CharacterEffectManager : MonoBehaviour
         character = GetComponent<CharacterManager>();
     }
 
-    public void ProcessInstantEffect(){
-        
+    public virtual void ProcessInstantEffect(InstantCharacterEffect effect){
+        effect.ProcessEffect(character);
     }
 }

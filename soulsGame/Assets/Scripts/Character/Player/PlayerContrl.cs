@@ -79,7 +79,7 @@ public class PlayerContrl : CharacterContrl
         if (isSprinting && InputManeger.istance.moveAmount >= 0.5f){
             moveVelocity = moveDirection * sprintingSpeed;
 
-            playManager.playerStaminaManager.currentStamina -= sprintingStaminaCost * Time.deltaTime;
+            playManager.currentStamina -= sprintingStaminaCost * Time.deltaTime;
         }else{
             if (InputManeger.istance.moveAmount > 0.5f){
             moveVelocity = moveDirection * runningSpeed;
@@ -119,7 +119,7 @@ public class PlayerContrl : CharacterContrl
 
         if (!playManager.isGrounded) return;
 
-        if (playManager.playerStaminaManager.currentStamina <= 0) return;
+        if (playManager.currentStamina <= 0) return;
 
 
         if (InputManeger.istance.moveAmount > 0){
@@ -138,7 +138,7 @@ public class PlayerContrl : CharacterContrl
             playManager.animatorManager.PlayTargetAction("Back step", true);
         }
 
-        playManager.playerStaminaManager.currentStamina -= dodgeStaminaCost;
+        playManager.currentStamina -= dodgeStaminaCost;
     }
     
 
@@ -200,7 +200,7 @@ public class PlayerContrl : CharacterContrl
     public void TryJump(){
         if (playManager.isPerformingAction) return;
         
-        if (playManager.playerStaminaManager.currentStamina <= 0) return;
+        if (playManager.currentStamina <= 0) return;
 
         if (!playManager.isGrounded) return;
 
@@ -210,7 +210,7 @@ public class PlayerContrl : CharacterContrl
        
         playManager.animatorManager.PlayTargetAction("Jump start", false, false);
         
-        playManager.playerStaminaManager.currentStamina -= jumpStaminaCost;
+        playManager.currentStamina -= jumpStaminaCost;
     }
 
     public void ApplyJumpVelocity(){

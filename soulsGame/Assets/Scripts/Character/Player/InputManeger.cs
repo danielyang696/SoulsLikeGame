@@ -15,7 +15,6 @@ public class InputManeger : MonoBehaviour
     PlayerControls playerContrl;
 
     PlayManager playManager;
-    PlayerStaminaManager playerStaminaManager;
     
     public Vector2 moveInput{get; private set;}
     public Vector2 mouseInput{get; private set;}
@@ -38,7 +37,6 @@ public class InputManeger : MonoBehaviour
             Destroy(gameObject);
         }
 
-        playerStaminaManager = FindAnyObjectByType<PlayerStaminaManager>();
         playManager = FindAnyObjectByType<PlayManager>();
     }
 
@@ -134,7 +132,7 @@ public class InputManeger : MonoBehaviour
     }
 
     private void HandleSprintInput(){
-        if (sprintingInput && moveAmount > 0.55f && playerStaminaManager.currentStamina > 0){
+        if (sprintingInput && moveAmount > 0.55f && playManager.currentStamina > 0){
             playManager.playerContrl.isSprinting = true;
         }else{
             playManager.playerContrl.isSprinting = false;
