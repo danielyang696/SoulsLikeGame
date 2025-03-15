@@ -12,7 +12,7 @@ public class PlayerEffectManager : CharacterEffectManager
 
     protected override void Awake()
     {
-        player = GetComponent<PlayManager>();
+        base.Awake();
     }
 
     void Update()

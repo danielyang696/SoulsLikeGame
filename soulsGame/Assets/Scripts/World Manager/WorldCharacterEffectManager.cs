@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class WorldCharacterEffectManager : MonoBehaviour
 {
-    static WorldCharacterEffectManager instance;
+    public static WorldCharacterEffectManager instance;
+
+    [Header("Damage")]
+    public TakeDamage takeDamageEffect;
+
     [SerializeField] List<InstantCharacterEffect> characterEffectsList;
 
     void Awake()

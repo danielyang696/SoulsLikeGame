@@ -7,9 +7,10 @@ public abstract class CharacterManager : MonoBehaviour
 {
     public PlayerStaminaManager playerStaminaManager; //由於AI敵人沒有耐力，為了處理TakeStaminaEffect所以先這樣寫
     protected abstract CharacterHealthManager characterHealthManager { get; set; }
-
+    public CharacterEffectManager characterEffectManager;
 
     [Header("Character Stats")]
+    public bool isDead = false;
     public float maxStamina;
     private float _currentStamina;
     public float currentStamina //提供對 _currentStamina 的間接訪問
@@ -37,7 +38,8 @@ public abstract class CharacterManager : MonoBehaviour
 
     protected virtual void Awake() {
         characterHealthManager = FindAnyObjectByType<CharacterHealthManager>();
-        
+        characterEffectManager = GetComponent<CharacterEffectManager>();
+
         DontDestroyOnLoad(this);
     }
 
