@@ -8,22 +8,16 @@ public class PlayManager : CharacterManager
 {
     //PlayerContrl是player的移動腳本
     public PlayerContrl playerContrl;
-    Animator animator;
-    public AnimatorManager animatorManager;
+    //public AnimatorManager animatorManager;
 
     protected override CharacterHealthManager characterHealthManager { get ; set ;}  //繼承自CharacterManager
-    public bool applyRootMotion;
-    public bool isPerformingAction = false;
-    public bool isJumping;
-    public bool isGrounded;
 
     protected override void Awake() {
         base.Awake();
 
         characterHealthManager = FindAnyObjectByType<PlayerHealthManager>();//將CharacterHealthManager覆蓋為PlayerHealthManager
         playerContrl = GetComponent<PlayerContrl>();
-        animator = GetComponent<Animator>();
-        animatorManager = GetComponent<AnimatorManager>();
+        //animatorManager = GetComponent<AnimatorManager>();
     }
 
     void Start()
@@ -48,5 +42,12 @@ public class PlayManager : CharacterManager
     //handle camera follow  
     private void LateUpdate() {
         CameraManager.istance.HandleAllCameraMovement();
+    }
+
+    public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
+    {
+        PlayerUIManager.istance.popUpManager.SendYouDiedPopUp();
+
+        return base.ProcessDeathEvent(manuallySelectDeathAnimation);
     }
 }

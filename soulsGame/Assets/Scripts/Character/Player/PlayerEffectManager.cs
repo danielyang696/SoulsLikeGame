@@ -8,7 +8,6 @@ public class PlayerEffectManager : CharacterEffectManager
     [Header("Debug Delete later")]
     [SerializeField] InstantCharacterEffect effectToTest;
     [SerializeField] bool isProcessingEffect;
-    PlayManager player;
 
     protected override void Awake()
     {
@@ -20,7 +19,7 @@ public class PlayerEffectManager : CharacterEffectManager
         if (isProcessingEffect){
             isProcessingEffect = false;
             InstantCharacterEffect effect = Instantiate(effectToTest) as TakeStaminaEffect;
-            effect.ProcessEffect(player);
+            ProcessInstantEffect(effect);
         }
     }
 }

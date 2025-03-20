@@ -679,7 +679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d98d343f7e902e4da41878a537ec0ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  characterManager: {fileID: 6095214880065873074}
 --- !u!114 &64638568788228550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -725,13 +725,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStaminaManager: {fileID: 0}
-  characterHealthManager: {fileID: 0}
-  playerContrl: {fileID: 0}
-  animatorManager: {fileID: 0}
+  characterEffectManager: {fileID: 0}
+  animator: {fileID: 0}
   applyRootMotion: 0
   isPerformingAction: 0
   isJumping: 0
   isGrounded: 0
+  isDead: 0
+  maxStamina: 0
+  maxHealth: 0
+  playerContrl: {fileID: 0}
+  animatorManager: {fileID: 0}
 --- !u!114 &2458335936733893575
 MonoBehaviour:
   m_ObjectHideFlags: 0

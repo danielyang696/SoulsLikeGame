@@ -109,9 +109,9 @@ public class InputManeger : MonoBehaviour
 
         if (walkInput && moveAmount >= 0.5f){
             moveAmount = 0.5f;
-            playManager.animatorManager.UpdateAnimation(0, moveAmount, playManager.playerContrl.isSprinting);
+            playManager.characterAnimatorManager.UpdateAnimation(0, moveAmount, playManager.playerContrl.isSprinting);
         }else{
-            playManager.animatorManager.UpdateAnimation(0, moveAmount, playManager.playerContrl.isSprinting);
+            playManager.characterAnimatorManager.UpdateAnimation(0, moveAmount, playManager.playerContrl.isSprinting);
         }
     }
 

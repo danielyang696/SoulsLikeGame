@@ -7,4 +7,8 @@ public class CharacterContrl : MonoBehaviour
     protected virtual void Awake(){
         
     }
+
+    protected virtual void Update(){
+        
+    }
 }

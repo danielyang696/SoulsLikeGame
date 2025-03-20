@@ -5,6 +5,9 @@ using UnityEngine;
 public class PlayerUIManager : MonoBehaviour
 {
     public static PlayerUIManager istance;
+    [Header("References")]
+    public PlayerHUDManager playerHUDManager;
+    public PopUpManager popUpManager;
 
     void Awake()
     {
@@ -13,6 +16,9 @@ public class PlayerUIManager : MonoBehaviour
         }else{
             Destroy(gameObject);
         }
+
+        playerHUDManager = GetComponentInChildren<PlayerHUDManager>();
+        popUpManager = GetComponentInChildren<PopUpManager>();
     }
 
     void Start()

@@ -54,8 +54,10 @@ public class PlayerContrl : CharacterContrl
         playManager.playerStaminaManager = FindAnyObjectByType<PlayerStaminaManager>();
     }
 
-    private void Update()
+    protected override void Update()
     { 
+        base.Update();
+        
         HandleGravity();
     }
 
@@ -133,9 +135,9 @@ public class PlayerContrl : CharacterContrl
             Quaternion rollRotation = Quaternion.LookRotation(rollDirection);
             transform.rotation = rollRotation;
 
-            playManager.animatorManager.PlayTargetAction("RollAnimation", true);
+            playManager.characterAnimatorManager.PlayTargetAction("RollAnimation", true);
         }else{
-            playManager.animatorManager.PlayTargetAction("Back step", true);
+            playManager.characterAnimatorManager.PlayTargetAction("Back step", true);
         }
 
         playManager.currentStamina -= dodgeStaminaCost;
@@ -184,7 +186,7 @@ public class PlayerContrl : CharacterContrl
             }
 
             inAirTimer += Time.deltaTime;
-            playManager.animatorManager.animator.SetFloat("airTimer", inAirTimer);
+            playManager.animator.SetFloat("airTimer", inAirTimer);
 
             rb.AddForce(-Vector3.up * fallingGravityForce * inAirTimer);
         }
@@ -208,7 +210,7 @@ public class PlayerContrl : CharacterContrl
 
         playManager.isJumping = true;
        
-        playManager.animatorManager.PlayTargetAction("Jump start", false, false);
+        playManager.characterAnimatorManager.PlayTargetAction("Jump start", false, false);
         
         playManager.currentStamina -= jumpStaminaCost;
     }
@@ -233,7 +235,7 @@ public class PlayerContrl : CharacterContrl
         if (playManager.applyRootMotion)
         {
             // 获取动画中的位移和旋转数据
-            Vector3 deltaPosition = playManager.animatorManager.animator.deltaPosition;
+            Vector3 deltaPosition = playManager.animator.deltaPosition;
             deltaPosition.y = 0;
 
             //使動畫的位移沿著斜坡角度移動
