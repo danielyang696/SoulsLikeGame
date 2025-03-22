@@ -51,7 +51,6 @@ public class PlayerContrl : CharacterContrl
         rb = GetComponent<Rigidbody>();
         cameraObject = Camera.main.transform;
         playManager = GetComponent<PlayManager>();
-        playManager.playerStaminaManager = FindAnyObjectByType<PlayerStaminaManager>();
     }
 
     protected override void Update()

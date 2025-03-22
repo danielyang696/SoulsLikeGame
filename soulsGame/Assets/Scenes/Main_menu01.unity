@@ -331,6 +331,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6095214880065873074, guid: cf2b8a19b58233742814755a5ba8b859,
+        type: 3}
+      propertyPath: characterHealthManager
+      value: 
+      objectReference: {fileID: 1983747065}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1694,6 +1699,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef502e465d736544eacf4bb5114f5521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1810323152 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6095214880065873074, guid: cf2b8a19b58233742814755a5ba8b859,
+    type: 3}
+  m_PrefabInstance: {fileID: 268863103}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cce72bfb39481ff48a02ea124a9437de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1959713113
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1747,6 +1764,11 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3461335794216613801, guid: b466dee7400cfa942b3e44c274a282c0,
+        type: 3}
+      propertyPath: HealthSource
+      value: 
+      objectReference: {fileID: 1810323152}
     - target: {fileID: 3977218093567503020, guid: b466dee7400cfa942b3e44c274a282c0,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1902,6 +1924,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b466dee7400cfa942b3e44c274a282c0, type: 3}
+--- !u!114 &1983747065 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3461335794216613801, guid: b466dee7400cfa942b3e44c274a282c0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1959713113}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fade45553fc8403459c2cf6dca8cfce8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2055929770
 PrefabInstance:
   m_ObjectHideFlags: 0

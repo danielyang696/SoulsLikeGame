@@ -7,10 +7,8 @@ public abstract class CharacterManager : MonoBehaviour
 {
     [Header("References")]
     public Animator animator;
-    public PlayerStaminaManager playerStaminaManager; //由於AI敵人沒有耐力，為了處理TakeStaminaEffect所以先這樣寫
     public CharacterEffectManager characterEffectManager;
     public CharacterAnimatorManager characterAnimatorManager;
-    protected abstract CharacterHealthManager characterHealthManager { get; set; }
 
     [Header("States")]
     public bool applyRootMotion;
@@ -47,8 +45,6 @@ public abstract class CharacterManager : MonoBehaviour
 
 
     protected virtual void Awake() {
-        characterHealthManager = FindAnyObjectByType<CharacterHealthManager>();
-        playerStaminaManager = FindAnyObjectByType<PlayerStaminaManager>();
         characterEffectManager = GetComponent<CharacterEffectManager>();
         characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
         animator = GetComponent<Animator>();
@@ -59,7 +55,7 @@ public abstract class CharacterManager : MonoBehaviour
 
     protected virtual void Update()
     {
-        playerStaminaManager.HandleStaminaRecharge();
+        PlayerUIManager.istance.playerHUDManager.playerStaminaManager.HandleStaminaRecharge(); 
     }
 
     public virtual void CheckHP(float value){

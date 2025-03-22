@@ -8,16 +8,11 @@ public class PlayManager : CharacterManager
 {
     //PlayerContrl是player的移動腳本
     public PlayerContrl playerContrl;
-    //public AnimatorManager animatorManager;
-
-    protected override CharacterHealthManager characterHealthManager { get ; set ;}  //繼承自CharacterManager
 
     protected override void Awake() {
         base.Awake();
 
-        characterHealthManager = FindAnyObjectByType<PlayerHealthManager>();//將CharacterHealthManager覆蓋為PlayerHealthManager
         playerContrl = GetComponent<PlayerContrl>();
-        //animatorManager = GetComponent<AnimatorManager>();
     }
 
     void Start()
