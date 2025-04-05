@@ -2,31 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldCharacterEffectManager : MonoBehaviour
-{
-    public static WorldCharacterEffectManager instance;
-
-    [Header("Damage")]
-    public TakeDamage takeDamageEffect;
-
-    [SerializeField] List<InstantCharacterEffect> characterEffectsList;
-
-    void Awake()
+namespace SG{
+    public class WorldCharacterEffectManager : MonoBehaviour
     {
-        if (instance == null){
-            instance = this;
-        }else{
-            Destroy(gameObject);
+        public static WorldCharacterEffectManager instance;
+
+        [Header("Damage")]
+        public TakeDamage takeDamageEffect;
+
+        [SerializeField] List<InstantCharacterEffect> characterEffectsList;
+
+        void Awake()
+        {
+            if (instance == null){
+                instance = this;
+            }else{
+                Destroy(gameObject);
+            }
+
+            GenerateEffectID();
         }
 
-        GenerateEffectID();
-    }
-
-    private void GenerateEffectID(){
-        for (int i = 0; i < characterEffectsList.Count; i++){
-            characterEffectsList[i].effectID = i;
+        private void GenerateEffectID(){
+            for (int i = 0; i < characterEffectsList.Count; i++){
+                characterEffectsList[i].effectID = i;
+            }
         }
+
+
     }
-
-
 }

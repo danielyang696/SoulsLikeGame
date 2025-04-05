@@ -4,45 +4,47 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 
-public class PlayManager : CharacterManager
-{
-    //PlayerContrl是player的移動腳本
-    public PlayerContrl playerContrl;
-
-    protected override void Awake() {
-        base.Awake();
-
-        playerContrl = GetComponent<PlayerContrl>();
-    }
-
-    void Start()
+namespace SG{
+    public class PlayManager : CharacterManager
     {
-        maxHealth = 100f;
-        maxStamina = 100f;
-        currentStamina = maxStamina;
-        currentHealth = maxHealth;
-    }
+        //PlayerContrl是player的移動腳本
+        public PlayerContrl playerContrl;
 
-    protected override void Update() {
-        base.Update();
-        
-        animator.SetBool("isGround", isGrounded);
-        InputManeger.istance.HandleAllInput();
-    }
+        protected override void Awake() {
+            base.Awake();
 
-    private void FixedUpdate() {
-        playerContrl.HandleAllMovement();
-    }
+            playerContrl = GetComponent<PlayerContrl>();
+        }
 
-    //handle camera follow  
-    private void LateUpdate() {
-        CameraManager.istance.HandleAllCameraMovement();
-    }
+        void Start()
+        {
+            maxHealth = 100f;
+            maxStamina = 100f;
+            currentStamina = maxStamina;
+            currentHealth = maxHealth;
+        }
 
-    public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
-    {
-        PlayerUIManager.istance.popUpManager.SendYouDiedPopUp();
+        protected override void Update() {
+            base.Update();
+            
+            animator.SetBool("isGround", isGrounded);
+            InputManeger.istance.HandleAllInput();
+        }
 
-        return base.ProcessDeathEvent(manuallySelectDeathAnimation);
+        private void FixedUpdate() {
+            playerContrl.HandleAllMovement();
+        }
+
+        //handle camera follow  
+        private void LateUpdate() {
+            CameraManager.istance.HandleAllCameraMovement();
+        }
+
+        public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
+        {
+            PlayerUIManager.istance.popUpManager.SendYouDiedPopUp();
+
+            return base.ProcessDeathEvent(manuallySelectDeathAnimation);
+        }
     }
 }

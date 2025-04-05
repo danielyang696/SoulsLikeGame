@@ -7,135 +7,138 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 using UnityEngine.Windows;
 using UnityEngine.SceneManagement;
-public class InputManeger : MonoBehaviour
-{
-    public static InputManeger istance;
-    
-    //這個是input system
-    PlayerControls playerContrl;
 
-    PlayManager playManager;
-    
-    public Vector2 moveInput{get; private set;}
-    public Vector2 mouseInput{get; private set;}
-    private bool dodgeInput = false;
-    private bool sprintingInput;
-    private bool walkInput;
-    private bool jumpInput = false;
+namespace SG{
+    public class InputManeger : MonoBehaviour
+    {
+        public static InputManeger istance;
+        
+        //這個是input system
+        PlayerControls playerContrl;
 
-    public float mouseX;
-    public float mouseY;
-    public float moveAmount;
+        PlayManager playManager;
+        
+        public Vector2 moveInput{get; private set;}
+        public Vector2 mouseInput{get; private set;}
+        private bool dodgeInput = false;
+        private bool sprintingInput;
+        private bool walkInput;
+        private bool jumpInput = false;
 
-    public float horizontalInput{get; private set;}
-    public float verticalInput{get; private set;}
+        public float mouseX;
+        public float mouseY;
+        public float moveAmount;
 
-    private void Awake() {
-        if (istance == null){
-            istance = this;
-        }else{
-            Destroy(gameObject);
+        public float horizontalInput{get; private set;}
+        public float verticalInput{get; private set;}
+
+        private void Awake() {
+            if (istance == null){
+                istance = this;
+            }else{
+                Destroy(gameObject);
+            }
+
+            playManager = FindAnyObjectByType<PlayManager>();
         }
 
-        playManager = FindAnyObjectByType<PlayManager>();
-    }
-
-    void Start()
-    {
-        DontDestroyOnLoad(gameObject);
-        SceneManager.activeSceneChanged += OnSceneChanged;    
-        istance.enabled = false;
-    }
-
-    private void  OnSceneChanged(Scene oldScene, Scene newScene){
-        if (newScene.buildIndex == WorldSaveGameManager.instance.GetWorldScenesIndex()){
-            istance.enabled = true;
-        }else{
+        void Start()
+        {
+            DontDestroyOnLoad(gameObject);
+            SceneManager.activeSceneChanged += OnSceneChanged;    
             istance.enabled = false;
         }
-    }
 
-    private void OnEnable()
-    {
-        if (playerContrl == null){
-            playerContrl = new PlayerControls();
-
-            playerContrl.PlayerlockFov.Move.performed += i => moveInput = i.ReadValue<Vector2>();
-            playerContrl.PlayerlockFov.Camera.performed += i => mouseInput = i.ReadValue<Vector2>();
-            playerContrl.Playeraction.Dodge.performed += i => dodgeInput = true;
-            playerContrl.Playeraction.Jump.performed += i => jumpInput = true;
-            playerContrl.Playeraction.Sprinting.performed += i => sprintingInput = true;
-            playerContrl.Playeraction.PCWalk.performed += i => walkInput = true;
-
-            playerContrl.Playeraction.Sprinting.canceled += i => sprintingInput = false;
-            playerContrl.Playeraction.PCWalk.canceled += i => walkInput = false;
-            playerContrl.PlayerlockFov.Move.canceled += i => moveInput = new Vector2(0f,0f);
+        private void  OnSceneChanged(Scene oldScene, Scene newScene){
+            if (newScene.buildIndex == WorldSaveGameManager.instance.GetWorldScenesIndex()){
+                istance.enabled = true;
+            }else{
+                istance.enabled = false;
+            }
         }
 
-        playerContrl.Enable();
-    }
+        private void OnEnable()
+        {
+            if (playerContrl == null){
+                playerContrl = new PlayerControls();
 
-    private void OnDisable()
-    {
-        //playerContrl.Disable();
-    }
+                playerContrl.PlayerlockFov.Move.performed += i => moveInput = i.ReadValue<Vector2>();
+                playerContrl.PlayerlockFov.Camera.performed += i => mouseInput = i.ReadValue<Vector2>();
+                playerContrl.Playeraction.Dodge.performed += i => dodgeInput = true;
+                playerContrl.Playeraction.Jump.performed += i => jumpInput = true;
+                playerContrl.Playeraction.Sprinting.performed += i => sprintingInput = true;
+                playerContrl.Playeraction.PCWalk.performed += i => walkInput = true;
 
-    void OnDestroy()
-    {
-        SceneManager.activeSceneChanged -= OnSceneChanged;  
-    }
+                playerContrl.Playeraction.Sprinting.canceled += i => sprintingInput = false;
+                playerContrl.Playeraction.PCWalk.canceled += i => walkInput = false;
+                playerContrl.PlayerlockFov.Move.canceled += i => moveInput = new Vector2(0f,0f);
+            }
 
-    private void Update() {
-        HandleAllInput();
-    }
-
-    public void HandleAllInput(){
-        HandleMovementInput();
-        HandleDodgeInput();
-        HandleSprintInput();
-        HandleJumpInput();
-    }
-
-
-    private void HandleMovementInput(){
-        horizontalInput = moveInput.x;
-        verticalInput = moveInput.y;
-
-        mouseX = mouseInput.x;
-        mouseY = mouseInput.y;
-
-        //handle animation
-        moveAmount = Mathf.Clamp01(math.abs(horizontalInput) + math.abs(verticalInput));
-
-        if (walkInput && moveAmount >= 0.5f){
-            moveAmount = 0.5f;
-            playManager.characterAnimatorManager.UpdateAnimation(0, moveAmount, playManager.playerContrl.isSprinting);
-        }else{
-            playManager.characterAnimatorManager.UpdateAnimation(0, moveAmount, playManager.playerContrl.isSprinting);
+            playerContrl.Enable();
         }
-    }
 
-    private void HandleDodgeInput(){
-        if (dodgeInput){
-            dodgeInput = false;
-
-            playManager.playerContrl.TryDodge();
+        private void OnDisable()
+        {
+            //playerContrl.Disable();
         }
-    }
 
-    private void HandleJumpInput(){
-        if (jumpInput){
-            jumpInput = false;
-
-            playManager.playerContrl.TryJump();
+        void OnDestroy()
+        {
+            SceneManager.activeSceneChanged -= OnSceneChanged;  
         }
-    }
 
-    private void HandleSprintInput(){
-        if (sprintingInput && moveAmount > 0.55f && playManager.currentStamina > 0){
-            playManager.playerContrl.isSprinting = true;
-        }else{
-            playManager.playerContrl.isSprinting = false;
+        private void Update() {
+            HandleAllInput();
+        }
+
+        public void HandleAllInput(){
+            HandleMovementInput();
+            HandleDodgeInput();
+            HandleSprintInput();
+            HandleJumpInput();
+        }
+
+
+        private void HandleMovementInput(){
+            horizontalInput = moveInput.x;
+            verticalInput = moveInput.y;
+
+            mouseX = mouseInput.x;
+            mouseY = mouseInput.y;
+
+            //handle animation
+            moveAmount = Mathf.Clamp01(math.abs(horizontalInput) + math.abs(verticalInput));
+
+            if (walkInput && moveAmount >= 0.5f){
+                moveAmount = 0.5f;
+                playManager.characterAnimatorManager.UpdateAnimation(0, moveAmount, playManager.playerContrl.isSprinting);
+            }else{
+                playManager.characterAnimatorManager.UpdateAnimation(0, moveAmount, playManager.playerContrl.isSprinting);
+            }
+        }
+
+        private void HandleDodgeInput(){
+            if (dodgeInput){
+                dodgeInput = false;
+
+                playManager.playerContrl.TryDodge();
+            }
+        }
+
+        private void HandleJumpInput(){
+            if (jumpInput){
+                jumpInput = false;
+
+                playManager.playerContrl.TryJump();
+            }
+        }
+
+        private void HandleSprintInput(){
+            if (sprintingInput && moveAmount > 0.55f && playManager.currentStamina > 0){
+                playManager.playerContrl.isSprinting = true;
+            }else{
+                playManager.playerContrl.isSprinting = false;
+            }
         }
     }
 }

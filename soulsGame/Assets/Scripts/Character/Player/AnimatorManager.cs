@@ -4,9 +4,11 @@ using Unity.VisualScripting;
 using UnityEditor.Animations;
 using UnityEngine;
 
-public class AnimatorManager : CharacterAnimatorManager
-{
-    protected override void Awake(){
-        base.Awake();
+namespace SG{
+    public class AnimatorManager : CharacterAnimatorManager
+    {
+        protected override void Awake(){
+            base.Awake();
+        }
     }
 }

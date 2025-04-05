@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHUDManager : MonoBehaviour
-{
-    public PlayerHealthManager playerHealthManager;
-    public PlayerStaminaManager playerStaminaManager;
-
-    void Awake()
+namespace SG{
+    public class PlayerHUDManager : MonoBehaviour
     {
-        playerHealthManager = GetComponentInChildren<PlayerHealthManager>();
-        playerStaminaManager = GetComponentInChildren<PlayerStaminaManager>();
+        public PlayerHealthManager playerHealthManager;
+        public PlayerStaminaManager playerStaminaManager;
+
+        void Awake()
+        {
+            playerHealthManager = GetComponentInChildren<PlayerHealthManager>();
+            playerStaminaManager = GetComponentInChildren<PlayerStaminaManager>();
+        }
     }
 }
