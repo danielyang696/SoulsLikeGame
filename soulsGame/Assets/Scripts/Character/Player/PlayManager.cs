@@ -46,5 +46,15 @@ namespace SG{
 
             return base.ProcessDeathEvent(manuallySelectDeathAnimation);
         }
+
+
+        public void SaveGameToCurrentCharacterData(ref CharacterSaveData currentCharacterData){
+            currentCharacterData.characterPosition = transform.position;
+        }
+
+        public void LoadGameFormCurrentCharacterData(ref CharacterSaveData currentCharacterData){
+            Vector3 myPosition = currentCharacterData.characterPosition;    
+            transform.position = myPosition;
+        }
     }
 }
