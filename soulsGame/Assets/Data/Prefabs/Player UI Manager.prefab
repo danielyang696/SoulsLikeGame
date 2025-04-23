@@ -1242,6 +1242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterSlider: {fileID: 0}
+  HealthSource: {fileID: 0}
 --- !u!1 &8603405414167559772
 GameObject:
   m_ObjectHideFlags: 0

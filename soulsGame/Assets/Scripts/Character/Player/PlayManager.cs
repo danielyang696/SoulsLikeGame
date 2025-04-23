@@ -49,6 +49,7 @@ namespace SG{
 
 
         public void SaveGameToCurrentCharacterData(ref CharacterSaveData currentCharacterData){
+            currentCharacterData.characterName = "Knight";
             currentCharacterData.characterPosition = transform.position;
         }
 
