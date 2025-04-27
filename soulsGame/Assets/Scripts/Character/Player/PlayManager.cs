@@ -14,6 +14,7 @@ namespace SG{
             base.Awake();
 
             playerContrl = GetComponent<PlayerContrl>();
+            WorldSaveGameManager.instance.player = this;
         }
 
         void Start()

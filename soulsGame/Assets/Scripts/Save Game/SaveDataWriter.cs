@@ -24,7 +24,7 @@ namespace SG{
             File.Delete(Path.Combine(saveFilePath, saveFileName));
         }
 
-        //Use to create a save file to New Game
+        //Use to create a save file to save file
         public void CreateNewCharacterSaveFile(CharacterSaveData characterSaveData){
             //Made a path to save file(on computer
             string savePath = Path.Combine(saveFilePath, saveFileName);

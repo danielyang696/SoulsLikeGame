@@ -6,18 +6,34 @@ using UnityEngine.UI;
 namespace SG{
     public class TitleScreenManeger : MonoBehaviour
     {
+        public static TitleScreenManeger instance;
+
         [Header("Menu")]
         [SerializeField] GameObject titleScreenMainMenu;
         [SerializeField] GameObject titleScreenLoadGameMenu;
 
-        [Header("Buttons")]
+        [Header("Menu Buttons")]
         [SerializeField] Button loadGameMenuReturnButton;
         [SerializeField] Button MainMenuLoadGameButton;
 
+        [SerializeField] Button MainMenuNewGameButton;
+
+        [Header("Pop Up")]
+        [SerializeField] GameObject noCharacterSlotPopUp;
+        [SerializeField] Button noCharacterSlotPopUpOkButton;
+
+
+        void Awake()
+        {
+            if (instance == null){
+                instance = this;
+            }else{
+                Destroy(gameObject);
+            }
+        }
+
         public void StartNewGame(){
             WorldSaveGameManager.instance.CreateNewGame();
-            
-            StartCoroutine(WorldSaveGameManager.instance.LoadWorldScene());
         }
 
         public void OpenLoadGameMenu(){
@@ -39,5 +55,17 @@ namespace SG{
 
             MainMenuLoadGameButton.Select();
         }
+
+
+        public void DisPlayNoSlotPopUp(){
+            noCharacterSlotPopUp.SetActive(true);
+            noCharacterSlotPopUpOkButton.Select();
+        }
+
+        public void CloseNoSlotPopUp(){
+            noCharacterSlotPopUp.SetActive(false);
+            MainMenuLoadGameButton.Select();
+            MainMenuNewGameButton.Select();
+        }   
     }
 }
