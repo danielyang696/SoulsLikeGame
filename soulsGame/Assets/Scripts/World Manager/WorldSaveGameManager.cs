@@ -159,7 +159,7 @@ namespace SG{
 
                 return;
             }
-            /*
+            
             //Check is the slot is  already being used
             saveDataWriter.saveFileName = DecideCharacterFileNameOnCharacterSlotBeingUsed(CharacterSlot.CharacterSlot_05);
             saveDataWriter.saveFilePath = Application.persistentDataPath;
@@ -237,7 +237,7 @@ namespace SG{
 
                 return;
             }
-            */
+            
             //沒有空欄位，彈出警告訊息
             TitleScreenManeger.instance.DisPlayNoSlotPopUp();
         }
@@ -308,8 +308,18 @@ namespace SG{
             characterSlot10 = saveDataWriter.LoadSaveFile();
         }
 
+        public void DeleteCharacterSlot(CharacterSlot characterSlot){
+            saveDataWriter = new SaveDataWriter();
+            saveDataWriter.saveFilePath = Application.persistentDataPath;
+
+            //read the file name from the character slot being used and delete the file
+            saveDataWriter.saveFileName = DecideCharacterFileNameOnCharacterSlotBeingUsed(characterSlot);
+
+            saveDataWriter.DeleteSaveFile();
+        }
+        
         public IEnumerator LoadWorldScene(){
-            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(WorldScenesIndex);
+            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(currentCharacterData.sceneIndex);
             //獲取腳色資料狀態並套用在腳色
             player.LoadGameFormCurrentCharacterData(ref currentCharacterData);
 

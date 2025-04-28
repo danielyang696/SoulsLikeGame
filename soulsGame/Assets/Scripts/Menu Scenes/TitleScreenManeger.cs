@@ -15,13 +15,18 @@ namespace SG{
         [Header("Menu Buttons")]
         [SerializeField] Button loadGameMenuReturnButton;
         [SerializeField] Button MainMenuLoadGameButton;
-
         [SerializeField] Button MainMenuNewGameButton;
+        [SerializeField] Button deleteSlotPopUpConfirmButton;
 
         [Header("Pop Up")]
         [SerializeField] GameObject noCharacterSlotPopUp;
         [SerializeField] Button noCharacterSlotPopUpOkButton;
+        
+        [SerializeField] GameObject deleteSlotPopUp;
 
+
+        [Header("Character Slot")]
+        public CharacterSlot currentSelectedSlot = CharacterSlot.No_Slot;
 
         void Awake()
         {
@@ -57,6 +62,7 @@ namespace SG{
         }
 
 
+        //[CharacterSlot]
         public void DisPlayNoSlotPopUp(){
             noCharacterSlotPopUp.SetActive(true);
             noCharacterSlotPopUpOkButton.Select();
@@ -66,6 +72,37 @@ namespace SG{
             noCharacterSlotPopUp.SetActive(false);
             MainMenuLoadGameButton.Select();
             MainMenuNewGameButton.Select();
-        }   
+        }
+
+        public void SelectCharacterSlot(CharacterSlot characterSlot){
+            currentSelectedSlot = characterSlot;
+        }
+
+        //當return button被select時呼叫此方法更新TitleScreenManeger的currentSelectedSlot
+        public void SelectNoSlot(){
+            currentSelectedSlot = CharacterSlot.No_Slot;
+        }
+
+        public void AttemptDeleteCharacterSlot(){
+            //Check if the slot is empty
+            if (currentSelectedSlot != CharacterSlot.No_Slot){
+                deleteSlotPopUp.SetActive(true);
+
+                deleteSlotPopUpConfirmButton.Select();
+            }
+        }
+
+        public void DeleteCharacterSlot(){
+            deleteSlotPopUp.SetActive(false);
+            WorldSaveGameManager.instance.DeleteCharacterSlot(currentSelectedSlot);
+            titleScreenLoadGameMenu.SetActive(false);
+            titleScreenLoadGameMenu.SetActive(true);
+            loadGameMenuReturnButton.Select();
+        }
+
+        public void CloseDeleteSlotPopUp(){
+            deleteSlotPopUp.SetActive(false);
+            loadGameMenuReturnButton.Select();
+        } 
     }
 }

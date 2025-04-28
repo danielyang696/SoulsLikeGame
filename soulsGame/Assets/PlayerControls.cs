@@ -202,6 +202,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""UI"",
+            ""id"": ""e5e81b99-7111-41a2-9389-e3b415ceb126"",
+            ""actions"": [
+                {
+                    ""name"": ""mouse right"",
+                    ""type"": ""Button"",
+                    ""id"": ""2916adaf-1134-421e-bd0c-795f4d25f882"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""36b9c67c-02e9-4497-b694-0ea7713bb7b9"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""mouse right"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -216,6 +244,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Playeraction_Sprinting = m_Playeraction.FindAction("Sprinting", throwIfNotFound: true);
         m_Playeraction_Jump = m_Playeraction.FindAction("Jump", throwIfNotFound: true);
         m_Playeraction_PCWalk = m_Playeraction.FindAction("PCWalk", throwIfNotFound: true);
+        // UI
+        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
+        m_UI_mouseright = m_UI.FindAction("mouse right", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -397,6 +428,52 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public PlayeractionActions @Playeraction => new PlayeractionActions(this);
+
+    // UI
+    private readonly InputActionMap m_UI;
+    private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
+    private readonly InputAction m_UI_mouseright;
+    public struct UIActions
+    {
+        private @PlayerControls m_Wrapper;
+        public UIActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @mouseright => m_Wrapper.m_UI_mouseright;
+        public InputActionMap Get() { return m_Wrapper.m_UI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
+        public void AddCallbacks(IUIActions instance)
+        {
+            if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
+            @mouseright.started += instance.OnMouseright;
+            @mouseright.performed += instance.OnMouseright;
+            @mouseright.canceled += instance.OnMouseright;
+        }
+
+        private void UnregisterCallbacks(IUIActions instance)
+        {
+            @mouseright.started -= instance.OnMouseright;
+            @mouseright.performed -= instance.OnMouseright;
+            @mouseright.canceled -= instance.OnMouseright;
+        }
+
+        public void RemoveCallbacks(IUIActions instance)
+        {
+            if (m_Wrapper.m_UIActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IUIActions instance)
+        {
+            foreach (var item in m_Wrapper.m_UIActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_UIActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public UIActions @UI => new UIActions(this);
     public interface IPlayerlockFovActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -408,5 +485,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnSprinting(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnPCWalk(InputAction.CallbackContext context);
+    }
+    public interface IUIActions
+    {
+        void OnMouseright(InputAction.CallbackContext context);
     }
 }

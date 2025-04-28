@@ -157,6 +157,11 @@ namespace SG
             WorldSaveGameManager.instance.currentCharacterSlotBeingUsed = characterSlot;
             WorldSaveGameManager.instance.LoadGame();
         }
+
+        //當此slot被select時，呼叫此方法更新TitleScreenManeger的currentSelectedSlot
+        public void SelectCurrentSlot(){
+            TitleScreenManeger.instance.currentSelectedSlot = characterSlot;
+        }
     }
 }
 

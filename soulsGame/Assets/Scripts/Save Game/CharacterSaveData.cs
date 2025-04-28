@@ -14,6 +14,9 @@ namespace SG{
 
         [Header("Character position")]
         public Vector3 characterPosition;
+
+        [Header("Scene")]
+        public int sceneIndex = 1;
     }
 }
 
