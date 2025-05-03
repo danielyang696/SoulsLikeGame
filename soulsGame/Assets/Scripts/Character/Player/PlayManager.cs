@@ -52,11 +52,15 @@ namespace SG{
         public void SaveGameToCurrentCharacterData(ref CharacterSaveData currentCharacterData){
             currentCharacterData.characterName = "Knight";
             currentCharacterData.characterPosition = transform.position;
+            currentCharacterData.currentHealth = currentHealth;
+            currentCharacterData.currentStamina = currentStamina;
         }
 
         public void LoadGameFormCurrentCharacterData(ref CharacterSaveData currentCharacterData){
             Vector3 myPosition = currentCharacterData.characterPosition;    
             transform.position = myPosition;
+            currentHealth = currentCharacterData.currentHealth;
+            currentStamina = currentCharacterData.currentStamina;
         }
     }
 }

@@ -15,6 +15,10 @@ namespace SG{
         [Header("Character position")]
         public Vector3 characterPosition;
 
+        [Header("Stats")]
+        public float currentHealth = 100f;
+        public float currentStamina = 100f;
+
         [Header("Scene")]
         public int sceneIndex = 1;
     }

@@ -319,6 +319,7 @@ namespace SG{
         }
         
         public IEnumerator LoadWorldScene(){
+            //load the world scene according to the scene index
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync(currentCharacterData.sceneIndex);
             //獲取腳色資料狀態並套用在腳色
             player.LoadGameFormCurrentCharacterData(ref currentCharacterData);
